@@ -49,7 +49,7 @@ print('工具函數定義完成')
 
 
 # 0.2 導入資料並定義
-df_house = pd.read_csv('house_own_subset_sumy_rawdata_simulation.csv', encoding='ascii')
+df_house = pd.read_csv('數據存取\house_own_subset_sumy_rawdata_simulation.csv', encoding='ascii')
 df_house['region'] = df_house['county_cd'].apply(map_county_to_region)
 df_house['b_area_num'] = pd.to_numeric(df_house['b_area'], errors='coerce')
 df_house['b_age_num'] = pd.to_numeric(df_house['b_age'], errors='coerce')
@@ -423,21 +423,18 @@ data_1980_2020 = yearly_data[
 bins = np.arange(1980, 2025, 5)
 data_1980_2020['year_group'] = pd.cut(data_1980_2020['first_own_house_yr_num'], bins=bins, right=False)
 summary_5yr = data_1980_2020.groupby('year_group').size().reset_index(name='count')
-
-# 把每區間轉成中點年份
 summary_5yr['year_mid'] = summary_5yr['year_group'].apply(lambda x: (x.left + x.right) / 2)
 
-# 計算皮爾森相關係數
+# 計算皮爾森相關係數 
 corr_5yr = summary_5yr['year_mid'].corr(summary_5yr['count'], method='pearson')
-print(f"1980–2020 每五年統計一次 Pearson r = {corr_5yr:.4f}")
 
 # 創建折線圖
-fig1 = go.Figure()
-fig1.add_trace(go.Scatter(
+fig = go.Figure()
+fig.add_trace(go.Scatter(
     x=summary_5yr['year_mid'],
     y=summary_5yr['count'],
     mode='lines+markers+text',
-    name='1980–2020 (每5年一筆)',
+    name=f'相關係數 = {corr_5yr:.3f})',
     line=dict(color='#0072B2', width=3),
     marker=dict(size=7, color='#0072B2', line=dict(width=1, color='white')),
     text=[f'{c:,}' for c in summary_5yr['count']],
@@ -445,10 +442,9 @@ fig1.add_trace(go.Scatter(
     hovertemplate='年份區間: %{x:.0f}<br>購屋筆數: %{y:,}<extra></extra>'
 ))
 
-# 更新佈局
 fig.update_layout(
     title=dict(
-        text=f'<b>1980–2020 初次購屋數量（每5年統計） r = {corr_5yr:.3f}</b>',
+        text=f'<b>1980–2020 初次購屋數量（每5年統計）</b>',
         font=dict(size=18, family='Arial'),
         x=0.5,
         xanchor='center'
@@ -457,35 +453,42 @@ fig.update_layout(
         title='年份',
         range=[1980, 2020],
         dtick=5,
-        gridcolor='lightgray',
-        title_font=dict(size=14),
-        tickfont=dict(size=12)
+        gridcolor='lightgray'
     ),
     yaxis=dict(
         title='購屋數量（筆）',
-        title_font=dict(size=14),
-        tickfont=dict(size=12),
-        gridcolor='lightgray',
-        gridwidth=0.5
+        gridcolor='lightgray'
     ),
     height=500,
     plot_bgcolor='white',
     paper_bgcolor='white',
     hovermode='x unified',
-    showlegend=False
+    showlegend=True,
+    legend=dict(
+        x=0,           
+        y=1,           
+        xanchor='left',
+        yanchor='top',
+        bgcolor='rgba(255,255,255,0.8)',
+        bordercolor='black',
+        borderwidth=1,
+        font=dict(size=11)
+    )
 )
 fig.show()
 
 
 
-# 3.1 市場的脈動: 穩定需求下的微小波瀾
-# 準備時間序列資料
+# 創新與沿伸：市場巨變帶來的影響
+# 3.1 2019-2023年各區域購屋面積變化趨勢
+
+# 選取資料(5年的資料)
 years = [108, 109, 110, 111, 112]
 year_labels = [2019, 2020, 2021, 2022, 2023]
 area_timeline = {region: [] for region in ['北部', '中部', '南部', '東部', '離島']}
 
 for year in years:
-    df_year = pd.read_csv(f'house_own_subset_sumy_rawdata_simulation{year}.csv', encoding='ascii')
+    df_year = pd.read_csv(f'數據存取\house_own_subset_sumy_rawdata_simulation{year}.csv', encoding='ascii')
     df_year['b_area_num'] = pd.to_numeric(df_year['b_area'], errors='coerce')
     df_year['region'] = df_year['county_cd'].apply(map_county_to_region)
     region_avg = df_year.dropna(subset=['region', 'b_area_num']).groupby('region')['b_area_num'].mean()
@@ -555,60 +558,71 @@ fig.show()
 
 
 # 3.2 112年份中初次持有房屋時間統計
-# 篩出有初次購屋年份的資料
-yearly_data = df_house.dropna(subset=['first_own_house_yr_num']).copy()
-yearly_data['first_own_house_yr_num'] = pd.to_numeric(yearly_data['first_own_house_yr_num'], errors='coerce')
 
-# 建立 5 年區間
-year_min = int(yearly_data['first_own_house_yr_num'].min() // 5 * 5)
-year_max = int(yearly_data['first_own_house_yr_num'].max() // 5 * 5 + 5)
-bins = np.arange(year_min, year_max + 1, 5)
+# 選取資料
+data_15_24 = yearly_data[
+    (yearly_data['first_own_house_yr_num'] >= 2015) &
+    (yearly_data['first_own_house_yr_num'] <= 2024)
+]
 
-# 把年份分到對應的五年區間
-yearly_data['year_group'] = pd.cut(yearly_data['first_own_house_yr_num'], bins=bins, right=False)
+year_summary_15_24 = (
+    data_15_24
+    .groupby('first_own_house_yr_num')
+    .size()
+    .reset_index(name='count')
+)
 
-# 統計每區間的購屋筆數
-year_summary = yearly_data.groupby('year_group').size().reset_index(name='count')
+# 計算皮爾森相關係數
+corr_15_24 = year_summary_15_24['first_own_house_yr_num'].corr(
+    year_summary_15_24['count'], method='pearson'
+)
 
-# 建立標籤（例如 "2000–2004"）
-year_summary['year_label'] = year_summary['year_group'].apply(lambda x: f"{int(x.left)}-{int(x.right-1)}")
-
-# --- 建立互動式折線圖 ---
+# 創建折線圖
 fig = go.Figure()
-
 fig.add_trace(go.Scatter(
-    x=year_summary['year_label'],
-    y=year_summary['count'],
+    x=year_summary_15_24['first_own_house_yr_num'],
+    y=year_summary_15_24['count'],
     mode='lines+markers+text',
+    name=f'相關係數 = {corr_15_24:.3f})',
     line=dict(color='#0072B2', width=3),
-    marker=dict(size=8, color='#0072B2', line=dict(width=1, color='white')),
-    text=[f'{c:,}' for c in year_summary['count']],  # 在每個點上顯示數量
+    marker=dict(size=7, color='#0072B2', line=dict(width=1, color='white')),
+    text=[f'{c:,}' for c in year_summary_15_24['count']],
     textposition='top center',
-    hovertemplate='年份區間: %{x}<br>購屋數量: %{y:,} 筆<extra></extra>'
+    hovertemplate='年份: %{x}<br>筆數: %{y:,}<extra></extra>'
 ))
 
-# --- 圖表樣式設定 ---
+# 更新布局
 fig.update_layout(
     title=dict(
-        text='<b>各年份區間初次購屋數量變化趨勢（每5年）</b>',
+        text=f'<b>2015–2024 初次購屋數量</b>',
         font=dict(size=18, family='Arial'),
         x=0.5,
         xanchor='center'
     ),
     xaxis=dict(
-        title='<b>初次購屋年份區間</b>',
-        tickfont=dict(size=12),
+        title='年份',
+        range=[2015, 2024],
+        dtick=1,
         gridcolor='lightgray'
     ),
     yaxis=dict(
-        title='<b>購屋數量（筆）</b>',
-        tickfont=dict(size=12),
+        title='購屋數量（筆）',
         gridcolor='lightgray'
     ),
     height=500,
     plot_bgcolor='white',
     paper_bgcolor='white',
-    hovermode='x unified'
+    hovermode='x unified',
+    showlegend=True,
+    legend=dict(
+        x=0,           
+        y=1,           
+        xanchor='left',
+        yanchor='top',
+        bgcolor='rgba(255,255,255,0.8)',
+        bordercolor='black',
+        borderwidth=1,
+        font=dict(size=11),
+    )
 )
-
 fig.show()
