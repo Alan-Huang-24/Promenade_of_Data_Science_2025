@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="組員：廖祥恩、黃昱綸、張宸華、劉子嘉 指導教授：清華大學數學系 東聖甯教授">
+
+<title>一個屋簷，一個夢：數據眼中的台灣購屋故事</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="資料科學漫步_文字檔_files/libs/clipboard/clipboard.min.js"></script>
+<script src="資料科學漫步_文字檔_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="資料科學漫步_文字檔_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="資料科學漫步_文字檔_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="資料科學漫步_文字檔_files/libs/quarto-html/popper.min.js"></script>
+<script src="資料科學漫步_文字檔_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="資料科學漫步_文字檔_files/libs/quarto-html/anchor.min.js"></script>
+<link href="資料科學漫步_文字檔_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="資料科學漫步_文字檔_files/libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="資料科學漫步_文字檔_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="資料科學漫步_文字檔_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="資料科學漫步_文字檔_files/libs/bootstrap/bootstrap-4d7f0bce1131f3e5f9547cd857cfbfc8.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">章節導覽</h2>
+   
+  <ul>
+  <li><a href="#研究摘要" id="toc-研究摘要" class="nav-link active" data-scroll-target="#研究摘要"><span class="header-section-number">1</span> 研究摘要</a></li>
+  <li><a href="#研究動機及工具使用家的夢藏在數據的細節裡" id="toc-研究動機及工具使用家的夢藏在數據的細節裡" class="nav-link" data-scroll-target="#研究動機及工具使用家的夢藏在數據的細節裡"><span class="header-section-number">2</span> 研究動機及工具使用：家的夢，藏在數據的細節裡</a></li>
+  <li><a href="#成果展現與報告撰寫" id="toc-成果展現與報告撰寫" class="nav-link" data-scroll-target="#成果展現與報告撰寫"><span class="header-section-number">3</span> 成果展現與報告撰寫</a>
+  <ul class="collapse">
+  <li><a href="#起點的抉擇---南北風情大不同" id="toc-起點的抉擇---南北風情大不同" class="nav-link" data-scroll-target="#起點的抉擇---南北風情大不同"><span class="header-section-number">3.1</span> 起點的抉擇 - 南北風情大不同</a></li>
+  <li><a href="#家的時間軸---何時我們築起第一個巢" id="toc-家的時間軸---何時我們築起第一個巢" class="nav-link" data-scroll-target="#家的時間軸---何時我們築起第一個巢"><span class="header-section-number">3.2</span> 家的時間軸 - 何時，我們築起第一個巢？</a></li>
+  <li><a href="#市場巨變帶來的影響" id="toc-市場巨變帶來的影響" class="nav-link" data-scroll-target="#市場巨變帶來的影響"><span class="header-section-number">3.3</span> 市場巨變帶來的影響</a></li>
+  </ul></li>
+  <li><a href="#推論與討論數據背後的故事與政策省思" id="toc-推論與討論數據背後的故事與政策省思" class="nav-link" data-scroll-target="#推論與討論數據背後的故事與政策省思"><span class="header-section-number">4</span> 推論與討論：數據背後的故事與政策省思</a>
+  <ul class="collapse">
+  <li><a href="#房市現況核心" id="toc-房市現況核心" class="nav-link" data-scroll-target="#房市現況核心"><span class="header-section-number">4.1</span> 房市現況核心</a></li>
+  </ul></li>
+  <li><a href="#創新與延伸政策改善方向及建議" id="toc-創新與延伸政策改善方向及建議" class="nav-link" data-scroll-target="#創新與延伸政策改善方向及建議"><span class="header-section-number">5</span> 創新與延伸：政策改善方向及建議</a></li>
+  <li><a href="#特別致謝" id="toc-特別致謝" class="nav-link" data-scroll-target="#特別致謝"><span class="header-section-number">6</span> 特別致謝</a></li>
+  <li><a href="#參考資料及程式碼總集" id="toc-參考資料及程式碼總集" class="nav-link" data-scroll-target="#參考資料及程式碼總集"><span class="header-section-number">7</span> 參考資料及程式碼總集</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="資料科學漫步_文字檔.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">一個屋簷，一個夢：數據眼中的台灣購屋故事</h1>
+<p class="subtitle lead">資料科學敘事挑戰賽：超越預測</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>組員：廖祥恩、黃昱綸、張宸華、劉子嘉 指導教授：清華大學數學系 東聖甯教授 </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="研究摘要" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="研究摘要"><span class="header-section-number">1</span> 研究摘要</h2>
+<p>本研究旨在分析台灣各地區房屋特性及各地區的人們是如何根據自己的能力選擇最適合自己的房子。以內政部大數據模擬資料-屋主模擬資料當基礎，利用Python語言中的Pandas、numpy及plotly作為分析工具，將研究成果從單年成果立體化至歷年的趨勢並對政府制定房屋政策做出建議。</p>
+</section>
+<section id="研究動機及工具使用家的夢藏在數據的細節裡" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="研究動機及工具使用家的夢藏在數據的細節裡"><span class="header-section-number">2</span> 研究動機及工具使用：家的夢，藏在數據的細節裡</h2>
+<p>在台灣，大家都聽過這樣的期盼：「成家立業」。一個安穩的「家」是許多人心中夢想的基石。但當我們深入探究內政部提供的大數據時，我發現這個夢想的輪廓正隨著地點、時間與世代而悄悄改變。我們的任務不是預測房價，而是從數百萬筆冰冷的資料中，利用Python語言中的Pandas、numpy及plotly作為分析工具，拼湊出台灣家庭關於「家」的真實故事。</p>
+<p>這些故事裡，有著年輕人對未來的憧憬、中年人為家庭的權衡，以及整個社會在時代變遷下的縮影，但數據所指遠不止於此。它揭示了我們在不同生命階段，如何做出關於「家」的關鍵抉擇。這次的調查將循著三條主要線索前進：</p>
+<ul>
+<li>空間的謎題：南北購屋的選擇，為何有天壤之別？這背後犧牲了什麼，又換來了什麼？</li>
+<li>時間的軌跡：我們在人生的哪個時間點，才終於拿到第一把鑰匙？這個時間點，又如何牽動著我們關於婚姻與家庭的藍圖？</li>
+<li>市場的低語：過去五年，因環境導致房市的波動，是否正悄悄地改變我們的居住未來？</li>
+</ul>
+<p>現在，請跟著我們的腳步，一起走進數據的迷宮，揭開這幅台灣購屋地圖背後，隱藏的秘密與夢想。</p>
+</section>
+<section id="成果展現與報告撰寫" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="成果展現與報告撰寫"><span class="header-section-number">3</span> 成果展現與報告撰寫</h2>
+<section id="起點的抉擇---南北風情大不同" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="起點的抉擇---南北風情大不同"><span class="header-section-number">3.1</span> 起點的抉擇 - 南北風情大不同</h3>
+<p>故事伊始，來到台灣的上空，俯瞰這片土地上最顯著的差異：南北的房屋大不同。這裡的選擇，不僅關乎預算，更反映了截然不同的生活方式與價值觀。</p>
+<section id="寸土寸金的北部居住空間的地域差異" class="level4" data-number="3.1.1">
+<h4 data-number="3.1.1" class="anchored" data-anchor-id="寸土寸金的北部居住空間的地域差異"><span class="header-section-number">3.1.1</span> 寸土寸金的北部：居住空間的地域差異</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>圖一：各區域平均居住空間及數據數量</figcaption>
+<p><img src="數據存取/1.1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>蝸居，是為了換取一個夢想？數據圖清晰地揭示了台灣的居住現實：北部，特別是都會區，購房者平均只能擁有約 91 平方公尺(約27.5坪)的空間，遠低於其他地區。與此同時，東部與離島的居民則享受著約1.3倍面積的寬敞。選擇北部，或許意味著接受較小面積的「蝸居」，以換取更多的工作機會、便捷的交通與豐富的公共資源。而從數據數量角度也可看出約半數人為了謀求發展做出了縮小居住面積的妥協。</p>
+</section>
+<section id="住家或店家家的另一種可能" class="level4" data-number="3.1.2">
+<h4 data-number="3.1.2" class="anchored" data-anchor-id="住家或店家家的另一種可能"><span class="header-section-number">3.1.2</span> 住家或店家？家的另一種可能</h4>
+<p>在台灣，房屋不僅是居住的空間，也可能是互通有無的集散地，而住商用住宅便兼容「住家」及「商家」的功能。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>圖二：各區域房屋用途比較</figcaption>
+<p><img src="數據存取/1.2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>從數據來看可以發現，北部住家用的比例62.1%，在比其他區域高的同時，住商用比例卻遠低於其他地區，僅1.9%，而其他地區的住家用與住商用比例分別約莫45%與14%。這反映了北部的都市規劃更傾向於將住宅與商業區分開，生活與工作之間的界線更為分明，且居民也認可這種生活方式；而其他地區擁有著傳統街屋「樓下開店、樓上住家」的文化。對於家庭而言，住商混合意味著額外可能的收入來源，能稍微緩解購屋的經濟壓力，能更有效的利用資源。</p>
+</section>
+<section id="我們如何擁有家南北市場的冷與熱" class="level4" data-number="3.1.3">
+<h4 data-number="3.1.3" class="anchored" data-anchor-id="我們如何擁有家南北市場的冷與熱"><span class="header-section-number">3.1.3</span> 我們如何擁有家？南北市場的冷與熱</h4>
+<p>我們的第二個方向，是人們取得房屋的方式。這不僅僅是交易，更反映了地方的社會結構與人口流動。數據顯示，南北之間存在著巨大的差異。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>圖三：各區域屋主取得房屋的方式</figcaption>
+<p><img src="數據存取/1.3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>除了空間大小，人們如何「得到」一個家，也充滿了地域色彩。數據顯示，北部地區高達 67% 的房屋是透過「買賣」取得，冠絕全台。 這意味著一個高度流動、交易頻繁的市場，需求及供給甚至可能不均衡而導致房價節節攀升。與此形成鮮明對比的是離島地區，買賣比例僅 34%，可知眾人對於離島地區的房屋需求並不高。</p>
+</section>
+</section>
+<section id="家的時間軸---何時我們築起第一個巢" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="家的時間軸---何時我們築起第一個巢"><span class="header-section-number">3.2</span> 家的時間軸 - 何時，我們築起第一個巢？</h3>
+<p>先「安家」後「立業」是傳統價值歌頌的美德，但是在持續通膨且快節奏的生活及頻繁交易的房屋市場中，多數人只能先「工作」後「買房」。那麼人們成家的「時間壓力」，是否也更大？</p>
+<section id="被房價推遲的歲月家的起點越來越晚" class="level4" data-number="3.2.1">
+<h4 data-number="3.2.1" class="anchored" data-anchor-id="被房價推遲的歲月家的起點越來越晚"><span class="header-section-number">3.2.1</span> 被房價推遲的歲月：家的起點，越來越晚</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>圖四：首次購屋的年齡和其分布</figcaption>
+<p><img src="數據存取/2.1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>從數據上分析，初次持有房屋的中位數為35 歲，而眾數約落在33-34歲之間。在這個傳統上象徵著結婚生子、穩定家業的時期，如今卻可能被沉重的房價壓力所佔據。這不僅僅是延後買房，更可能連帶影響了年輕人對於婚姻、生育的規劃。當「安居」都成為挑戰時，「樂業」的底氣又從何而來？</p>
+</section>
+<section id="見證人口結構的改變和購屋的需求" class="level4" data-number="3.2.2">
+<h4 data-number="3.2.2" class="anchored" data-anchor-id="見證人口結構的改變和購屋的需求"><span class="header-section-number">3.2.2</span> 見證人口結構的改變和購屋的需求</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>圖五：1980年至2020年初次購屋數量</figcaption>
+<p><img src="數據存取/2.2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>從上圖數據可得知，在經濟飛速成長的時間段中，初次買房的數量也呈現高度正相關，顯示越來越多人都有多餘的財富實現成家的目標。而在1997年金融風暴使經濟遭受重創導致買房人數下降後，經濟雖然緩慢進步，我們推測是通膨速度超過了經濟成長，購屋數量的成長逐漸趨緩。</p>
+</section>
+</section>
+<section id="市場巨變帶來的影響" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="市場巨變帶來的影響"><span class="header-section-number">3.3</span> 市場巨變帶來的影響</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>圖六：2019年至2023年各區域平均購屋面積變化趨勢</figcaption>
+<p><img src="數據存取/3.1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>2020年，COVID-19疫情席捲了全球，使得多數人生活型態被迫改變，預定好的人生計劃也得重新制定，也造成經濟結構重創和轉變。從第三章的數據圖中可以看出，雖然南北部選房的總體趨勢不變，但是平均面積卻同步縮小，且隨著時間推進而持續下降。這反映了當環境受到全面影響時，對經濟面向的重創是持續性的，我們需要更多的時間去見證房屋面積的回升。</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<figcaption>圖七：2015-2024屋主為初次購屋之房屋的數量</figcaption>
+<p><img src="數據存取/3.2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>而從初次購屋數量來看疫情的影響會發現疫情初期的購屋數量依舊隨著趨勢成長，但是在2021-2023年宅經濟退燒後，台灣晶片出口大減。供過於求導致經濟負成長，反映在房市的初次購屋人數急遽下降就是最好的證明。</p>
+</section>
+</section>
+<section id="推論與討論數據背後的故事與政策省思" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="推論與討論數據背後的故事與政策省思"><span class="header-section-number">4</span> 推論與討論：數據背後的故事與政策省思</h2>
+<section id="房市現況核心" class="level3" data-number="4.1">
+<h3 data-number="4.1" class="anchored" data-anchor-id="房市現況核心"><span class="header-section-number">4.1</span> 房市現況核心</h3>
+<ul>
+<li>南北的抉擇：北部以機會換空間，中南部則反之，形成了兩種截然不同的安居模式。</li>
+<li>時間的壓力：高房價推遲了成家的年齡，特別是在北部，家的起點被延後，可能進一步影響生育決策。</li>
+<li>安居的代價：「長期持有」成為常態，家庭在生命週期變化時，換屋的彈性受限，影響了居住品質的提升。</li>
+</ul>
+</section>
+</section>
+<section id="創新與延伸政策改善方向及建議" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="創新與延伸政策改善方向及建議"><span class="header-section-number">5</span> 創新與延伸：政策改善方向及建議</h2>
+<p>數據不僅僅是故事，更應成為政策的基石。我們的發現指向了幾個可能的政策方向：</p>
+<ul>
+<li>精準的青年安居政策：面對區域性挑戰，北部除現有補貼外，增加平價、優質的中小坪數住宅供給，應是政策思考的核心。</li>
+<li>活絡換屋市場：降低交易稅負，鼓勵家庭在不同生命階段(如：空巢期)「大換小」，釋出大坪數房屋，增加市場供給。</li>
+<li>區域均衡發展：長遠來看，唯有推動區域均衡發展，讓青年在家鄉也能找到機會，才能從根本上緩解「蝸居都市」的壓力。</li>
+</ul>
+</section>
+<section id="特別致謝" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="特別致謝"><span class="header-section-number">6</span> 特別致謝</h2>
+<p>由衷感謝清華大學數學系東聖甯教授的鼎力協助。在研究主題確立、方法修正、圖表呈現乃至文稿潤飾方面，教授皆不吝給予寶貴的建議與指導。</p>
+</section>
+<section id="參考資料及程式碼總集" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="參考資料及程式碼總集"><span class="header-section-number">7</span> 參考資料及程式碼總集</h2>
+<ol type="1">
+<li>社會經濟資料服務平台-內政部大數據模擬資料-屋主模擬資料(108年-112年)：<br>
+https://segis.moi.gov.tw/STATCloud/BigData<br>
+</li>
+<li>程式碼總集：<br>
+““”</li>
+</ol>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

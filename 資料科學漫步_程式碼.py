@@ -39,11 +39,6 @@ def map_county_to_region(county_cd):
             return r
     return np.nan
 
-def map_numeric_county_to_region(county_cd):
-    if pd.isna(county_cd): 
-        return np.nan
-    return NUMERIC_REGION_MAPPING.get(county_cd, np.nan)
-
 print('工具函數定義完成')
 
 
@@ -104,12 +99,6 @@ fig.add_trace(go.Scatter(
 
 # 更新布局
 fig.update_layout(
-    title=dict(
-        text='<b>寸土寸金的北部:南北居住空間大不同</b>',
-        font=dict(size=18, family='Arial'),
-        x=0.5,
-        xanchor='center'
-    ),
     xaxis=dict(
         title='<b>區域</b>',
         title_font=dict(size=14),
@@ -146,104 +135,7 @@ fig.show()
 
 
 
-# 1.2 我們如何擁有家?南北市場的冷與熱
-
-# 選取資料
-register_labels = {
-    'A': '第一次登記', 
-    'B': '買賣', 
-    'C': '贈與', 
-    'D': '繼承', 
-    'E': '拍賣', 
-    'F': '其他'
-}
-
-register_data = df_house.dropna(subset=['region', 'register_reason_group_cd']).copy()
-register_summary = register_data.groupby(['region', 'register_reason_group_cd']).size().unstack(fill_value=0)
-register_pct = register_summary.div(register_summary.sum(axis=1), axis=0) * 100
-register_pct_plot = register_pct.reindex(['北部', '中部', '南部', '東部', '離島'])
-
-# 創建垂直堆疊長條圖
-colors_mapping = {
-    'A': '#E8F4F8',
-    'B': '#FF6B6B',
-    'C': '#FFE66D',
-    'D': '#C9ADA7',
-    'E': '#A8DADC',
-    'F': '#457B9D'
-}
-
-fig = go.Figure()
-
-for col in register_pct_plot.columns:
-    fig.add_trace(go.Bar(
-        name=register_labels.get(col, '其他'),
-        x=register_pct_plot.index,
-        y=register_pct_plot[col],
-        marker_color=colors_mapping.get(col, '#999999'),
-        marker_line_color='black',
-        marker_line_width=0.5,
-        hovertemplate='<b>%{fullData.name}</b><br>' +
-                      '比例: %{y:.1f}%<br>' +
-                      '<extra></extra>'
-    ))
-
-# 添加買賣比例標註
-if 'B' in register_pct_plot.columns:
-    buy_pct = register_pct_plot['B']
-    for i, region in enumerate(register_pct_plot.index):
-        # 計算標註位置
-        y_pos = register_pct_plot.loc[region, :'A'].sum() + (buy_pct[region] / 2) if 'A' in register_pct_plot.columns else buy_pct[region] / 2
-        fig.add_annotation(
-            x=region,
-            y=y_pos,
-            text=f'<b>{buy_pct[region]:.1f}%</b><br>(買賣)',
-            showarrow=False,
-            font=dict(size=11, color='white', family='Arial'),
-            bgcolor='rgba(0,0,0,0.3)',
-            borderpad=6
-        )
-
-# 更新布局
-fig.update_layout(
-    title=dict(
-        text='<b>房屋取得方式的南北差異</b>',
-        font=dict(size=18, family='Arial'),
-        x=0.5,
-        xanchor='center'
-    ),
-    xaxis=dict(
-        title='<b>區域</b>',
-        title_font=dict(size=14),
-        tickfont=dict(size=12)
-    ),
-    yaxis=dict(
-        title='<b>取得方式比例 (%)</b>',
-        title_font=dict(size=14),
-        tickfont=dict(size=12),
-        gridcolor='lightgray'
-    ),
-    barmode='stack',
-    height=600,
-    hovermode='x unified',
-    legend=dict(
-        title='<b>取得方式</b>',
-        orientation='v',
-        yanchor='top',
-        y=1,
-        xanchor='left',
-        x=1.02,
-        font=dict(size=11)
-    ),
-    plot_bgcolor='white',
-    paper_bgcolor='white'
-)
-
-fig.show()
-
-
-
-# 1.3 住家或店家?家的另一種可能
+# 1.2 住家或店家?家的另一種可能
 
 # 選取資料
 purpose_labels = {
@@ -314,12 +206,6 @@ if '住家用' in purpose_pct_plot.columns and '住商用' in purpose_pct_plot.c
 
 # 更新布局
 fig.update_layout(
-    title=dict(
-        text='<b>家的多元功能:各區域房屋用途比較</b>',
-        font=dict(size=18, family='Arial'),
-        x=0.5,
-        xanchor='center'
-    ),
     xaxis=dict(
         title='<b>區域</b>',
         title_font=dict(size=14),
@@ -344,6 +230,97 @@ fig.update_layout(
         font=dict(size=11)
     ),
     
+    plot_bgcolor='white',
+    paper_bgcolor='white'
+)
+
+fig.show()
+
+
+
+# 1.3 我們如何擁有家?南北市場的冷與熱
+
+# 選取資料
+register_labels = {
+    'A': '第一次登記', 
+    'B': '買賣', 
+    'C': '贈與', 
+    'D': '繼承', 
+    'E': '拍賣', 
+    'F': '其他'
+}
+
+register_data = df_house.dropna(subset=['region', 'register_reason_group_cd']).copy()
+register_summary = register_data.groupby(['region', 'register_reason_group_cd']).size().unstack(fill_value=0)
+register_pct = register_summary.div(register_summary.sum(axis=1), axis=0) * 100
+register_pct_plot = register_pct.reindex(['北部', '中部', '南部', '東部', '離島'])
+
+# 創建垂直堆疊長條圖
+colors_mapping = {
+    'A': '#E8F4F8',
+    'B': '#FF6B6B',
+    'C': '#FFE66D',
+    'D': '#C9ADA7',
+    'E': '#A8DADC',
+    'F': '#457B9D'
+}
+
+fig = go.Figure()
+
+for col in register_pct_plot.columns:
+    fig.add_trace(go.Bar(
+        name=register_labels.get(col, '其他'),
+        x=register_pct_plot.index,
+        y=register_pct_plot[col],
+        marker_color=colors_mapping.get(col, '#999999'),
+        marker_line_color='black',
+        marker_line_width=0.5,
+        hovertemplate='<b>%{fullData.name}</b><br>' +
+                      '比例: %{y:.1f}%<br>' +
+                      '<extra></extra>'
+    ))
+
+# 添加買賣比例標註
+if 'B' in register_pct_plot.columns:
+    buy_pct = register_pct_plot['B']
+    for i, region in enumerate(register_pct_plot.index):
+        # 計算標註位置
+        y_pos = register_pct_plot.loc[region, :'A'].sum() + (buy_pct[region] / 2) if 'A' in register_pct_plot.columns else buy_pct[region] / 2
+        fig.add_annotation(
+            x=region,
+            y=y_pos,
+            text=f'<b>{buy_pct[region]:.1f}%</b><br>(買賣)',
+            showarrow=False,
+            font=dict(size=11, color='white', family='Arial'),
+            bgcolor='rgba(0,0,0,0.3)',
+            borderpad=6
+        )
+
+# 更新布局
+fig.update_layout(
+    xaxis=dict(
+        title='<b>區域</b>',
+        title_font=dict(size=14),
+        tickfont=dict(size=12)
+    ),
+    yaxis=dict(
+        title='<b>取得方式比例 (%)</b>',
+        title_font=dict(size=14),
+        tickfont=dict(size=12),
+        gridcolor='lightgray'
+    ),
+    barmode='stack',
+    height=600,
+    hovermode='x unified',
+    legend=dict(
+        title='<b>取得方式</b>',
+        orientation='v',
+        yanchor='top',
+        y=1,
+        xanchor='left',
+        x=1.02,
+        font=dict(size=11)
+    ),
     plot_bgcolor='white',
     paper_bgcolor='white'
 )
@@ -383,12 +360,6 @@ fig.add_vline(x=median_age, line_width=3, line_dash='solid', line_color='black',
 
 # 更新布局
 fig.update_layout(
-    title=dict(
-        text='<b>初次持有房屋年齡分布</b>',
-        font=dict(size=18, family='Arial'),
-        x=0.5,
-        xanchor='center'
-    ),
     xaxis=dict(
         title='<b>年齡</b>',
         range=[0, 80],
@@ -443,12 +414,6 @@ fig.add_trace(go.Scatter(
 ))
 
 fig.update_layout(
-    title=dict(
-        text=f'<b>1980–2020 初次購屋數量（每5年統計）</b>',
-        font=dict(size=18, family='Arial'),
-        x=0.5,
-        xanchor='center'
-    ),
     xaxis=dict(
         title='年份',
         range=[1980, 2020],
@@ -515,12 +480,6 @@ for region, values in area_timeline.items():
 
 # 更新布局
 fig.update_layout(
-    title=dict(
-        text='<b>2019-2023年各區域購屋面積變化趨勢</b>',
-        font=dict(size=18, family='Arial'),
-        x=0.5,
-        xanchor='center'
-    ),
     xaxis=dict(
         title='<b>年份</b>',
         title_font=dict(size=14),
@@ -593,12 +552,6 @@ fig.add_trace(go.Scatter(
 
 # 更新布局
 fig.update_layout(
-    title=dict(
-        text=f'<b>2015–2024 初次購屋數量</b>',
-        font=dict(size=18, family='Arial'),
-        x=0.5,
-        xanchor='center'
-    ),
     xaxis=dict(
         title='年份',
         range=[2015, 2024],
