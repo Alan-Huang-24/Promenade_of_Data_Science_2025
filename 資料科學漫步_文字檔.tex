@@ -1,0 +1,389 @@
+% Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
+\PassOptionsToPackage{space}{xeCJK}
+%
+\documentclass[
+  a4paper,
+  DIV=11,
+  numbers=noendperiod]{scrartcl}
+\usepackage{xcolor}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{5}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+  \setmainfont[]{Microsoft JhengHei}
+  \setsansfont[]{Microsoft JhengHei}
+  \setmonofont[]{Consolas}
+  \ifXeTeX
+    \usepackage{xeCJK}
+    \setCJKmainfont[]{Microsoft JhengHei}
+  \fi
+  \ifLuaTeX
+    \usepackage[]{luatexja-fontspec}
+    \setmainjfont[]{Microsoft JhengHei}
+  \fi
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+% Make \paragraph and \subparagraph free-standing
+\makeatletter
+\ifx\paragraph\undefined\else
+  \let\oldparagraph\paragraph
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+  \let\oldsubparagraph\subparagraph
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+\makeatother
+
+
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+
+
+\KOMAoption{captions}{tableheading}
+\xeCJKsetup{PunctStyle=plain}
+\setlength{\emergencystretch}{3em}
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\AtBeginDocument{%
+\ifdefined\contentsname
+  \renewcommand*\contentsname{Table of contents}
+\else
+  \newcommand\contentsname{Table of contents}
+\fi
+\ifdefined\listfigurename
+  \renewcommand*\listfigurename{List of Figures}
+\else
+  \newcommand\listfigurename{List of Figures}
+\fi
+\ifdefined\listtablename
+  \renewcommand*\listtablename{List of Tables}
+\else
+  \newcommand\listtablename{List of Tables}
+\fi
+\ifdefined\figurename
+  \renewcommand*\figurename{Figure}
+\else
+  \newcommand\figurename{Figure}
+\fi
+\ifdefined\tablename
+  \renewcommand*\tablename{Table}
+\else
+  \newcommand\tablename{Table}
+\fi
+}
+\@ifpackageloaded{float}{}{\usepackage{float}}
+\floatstyle{ruled}
+\@ifundefined{c@chapter}{\newfloat{codelisting}{h}{lop}}{\newfloat{codelisting}{h}{lop}[chapter]}
+\floatname{codelisting}{Listing}
+\newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
+\makeatother
+\makeatletter
+\makeatother
+\makeatletter
+\@ifpackageloaded{caption}{}{\usepackage{caption}}
+\@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
+\makeatother
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={一個屋簷，一個夢：數據眼中的台灣購屋故事},
+  pdfauthor={組員：廖祥恩、黃昱綸、張宸華、劉子嘉 指導教授：清華大學數學系 東聖甯教授},
+  colorlinks=true,
+  linkcolor={blue},
+  filecolor={Maroon},
+  citecolor={Blue},
+  urlcolor={Blue},
+  pdfcreator={LaTeX via pandoc}}
+
+
+\title{一個屋簷，一個夢：數據眼中的台灣購屋故事}
+\usepackage{etoolbox}
+\makeatletter
+\providecommand{\subtitle}[1]{% add subtitle to \maketitle
+  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
+}
+\makeatother
+\subtitle{資料科學敘事挑戰賽：超越預測}
+\author{組員：廖祥恩、黃昱綸、張宸華、劉子嘉 指導教授：清華大學數學系
+東聖甯教授}
+\date{}
+\begin{document}
+\maketitle
+
+\renewcommand*\contentsname{Table of contents}
+{
+\hypersetup{linkcolor=}
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+
+\section{研究摘要}\label{ux7814ux7a76ux6458ux8981}
+
+本研究旨在分析台灣各地區房屋特性及各地區的人們是如何根據自己的能力選擇最適合自己的房子。以內政部大數據模擬資料-屋主模擬資料當基礎，利用Python語言中的Pandas、numpy及plotly作為分析工具，將研究成果從單年成果立體化至歷年的趨勢並對政府制定房屋政策做出建議。
+
+\section{研究動機及工具使用：家的夢，藏在數據的細節裡}\label{ux7814ux7a76ux52d5ux6a5fux53caux5de5ux5177ux4f7fux7528ux5bb6ux7684ux5922ux85cfux5728ux6578ux64daux7684ux7d30ux7bc0ux88e1}
+
+在台灣，大家都聽過這樣的期盼：「成家立業」。一個安穩的「家」是許多人心中夢想的基石。但當我們深入探究內政部提供的大數據時，我發現這個夢想的輪廓正隨著地點、時間與世代而悄悄改變。我們的任務不是預測房價，而是從數百萬筆冰冷的資料中，利用Python語言中的Pandas、numpy及plotly作為分析工具，拼湊出台灣家庭關於「家」的真實故事。
+
+這些故事裡，有著年輕人對未來的憧憬、中年人為家庭的權衡，以及整個社會在時代變遷下的縮影，但數據所指遠不止於此。它揭示了我們在不同生命階段，如何做出關於「家」的關鍵抉擇。這次的調查將循著三條主要線索前進：
+
+\begin{itemize}
+\tightlist
+\item
+  空間的謎題：南北購屋的選擇，為何有天壤之別？這背後犧牲了什麼，又換來了什麼？
+\item
+  時間的軌跡：我們在人生的哪個時間點，才終於拿到第一把鑰匙？這個時間點，又如何牽動著我們關於婚姻與家庭的藍圖？
+\item
+  市場的低語：過去五年，因環境導致房市的波動，是否正悄悄地改變我們的居住未來？
+\end{itemize}
+
+現在，請跟著我們的腳步，一起走進數據的迷宮，揭開這幅台灣購屋地圖背後，隱藏的秘密與夢想。
+
+\section{成果展現與報告撰寫}\label{ux6210ux679cux5c55ux73feux8207ux5831ux544aux64b0ux5beb}
+
+\subsection{起點的抉擇 -
+南北風情大不同}\label{ux8d77ux9edeux7684ux6289ux64c7---ux5357ux5317ux98a8ux60c5ux5927ux4e0dux540c}
+
+故事伊始，來到台灣的上空，俯瞰這片土地上最顯著的差異：南北的房屋大不同。這裡的選擇，不僅關乎預算，更反映了截然不同的生活方式與價值觀。
+
+\subsubsection{寸土寸金的北部：居住空間的地域差異}\label{ux5bf8ux571fux5bf8ux91d1ux7684ux5317ux90e8ux5c45ux4f4fux7a7aux9593ux7684ux5730ux57dfux5deeux7570}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{數據存取/1.1.png}}
+
+}
+
+\caption{圖一：各區域平均居住空間及數據數量}
+
+\end{figure}%
+
+蝸居，是為了換取一個夢想？數據圖清晰地揭示了台灣的居住現實：北部，特別是都會區，購房者平均只能擁有約
+91
+平方公尺(約27.5坪)的空間，遠低於其他地區。與此同時，東部與離島的居民則享受著約1.3倍面積的寬敞。選擇北部，或許意味著接受較小面積的「蝸居」，以換取更多的工作機會、便捷的交通與豐富的公共資源。而從數據數量角度也可看出約半數人為了謀求發展做出了縮小居住面積的妥協。
+
+\subsubsection{住家或店家？家的另一種可能}\label{ux4f4fux5bb6ux6216ux5e97ux5bb6ux5bb6ux7684ux53e6ux4e00ux7a2eux53efux80fd}
+
+在台灣，房屋不僅是居住的空間，也可能是互通有無的集散地，而住商用住宅便兼容「住家」及「商家」的功能。
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{數據存取/1.2.png}}
+
+}
+
+\caption{圖二：各區域房屋用途比較}
+
+\end{figure}%
+
+從數據來看可以發現，北部住家用的比例62.1\%，在比其他區域高的同時，住商用比例卻遠低於其他地區，僅1.9\%，而其他地區的住家用與住商用比例分別約莫45\%與14\%。這反映了北部的都市規劃更傾向於將住宅與商業區分開，生活與工作之間的界線更為分明，且居民也認可這種生活方式；而其他地區擁有著傳統街屋「樓下開店、樓上住家」的文化。對於家庭而言，住商混合意味著額外可能的收入來源，能稍微緩解購屋的經濟壓力，能更有效的利用資源。
+
+\subsubsection{我們如何擁有家？南北市場的冷與熱}\label{ux6211ux5011ux5982ux4f55ux64c1ux6709ux5bb6ux5357ux5317ux5e02ux5834ux7684ux51b7ux8207ux71b1}
+
+我們的第二個方向，是人們取得房屋的方式。這不僅僅是交易，更反映了地方的社會結構與人口流動。數據顯示，南北之間存在著巨大的差異。
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{數據存取/1.3.png}}
+
+}
+
+\caption{圖三：各區域屋主取得房屋的方式}
+
+\end{figure}%
+
+除了空間大小，人們如何「得到」一個家，也充滿了地域色彩。數據顯示，北部地區高達
+67\% 的房屋是透過「買賣」取得，冠絕全台。
+這意味著一個高度流動、交易頻繁的市場，需求及供給甚至可能不均衡而導致房價節節攀升。與此形成鮮明對比的是離島地區，買賣比例僅
+34\%，可知眾人對於離島地區的房屋需求並不高。
+
+\subsection{家的時間軸 -
+何時，我們築起第一個巢？}\label{ux5bb6ux7684ux6642ux9593ux8ef8---ux4f55ux6642ux6211ux5011ux7bc9ux8d77ux7b2cux4e00ux500bux5de2}
+
+先「安家」後「立業」是傳統價值歌頌的美德，但是在持續通膨且快節奏的生活及頻繁交易的房屋市場中，多數人只能先「工作」後「買房」。那麼人們成家的「時間壓力」，是否也更大？
+
+\subsubsection{被房價推遲的歲月：家的起點，越來越晚}\label{ux88abux623fux50f9ux63a8ux9072ux7684ux6b72ux6708ux5bb6ux7684ux8d77ux9edeux8d8aux4f86ux8d8aux665a}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{數據存取/2.1.png}}
+
+}
+
+\caption{圖四：首次購屋的年齡和其分布}
+
+\end{figure}%
+
+從數據上分析，初次持有房屋的中位數為35
+歲，而眾數約落在33-34歲之間。在這個傳統上象徵著結婚生子、穩定家業的時期，如今卻可能被沉重的房價壓力所佔據。這不僅僅是延後買房，更可能連帶影響了年輕人對於婚姻、生育的規劃。當「安居」都成為挑戰時，「樂業」又從何談起。
+
+\subsubsection{見證人口結構的改變和購屋的需求}\label{ux898bux8b49ux4ebaux53e3ux7d50ux69cbux7684ux6539ux8b8aux548cux8cfcux5c4bux7684ux9700ux6c42}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{數據存取/2.2.png}}
+
+}
+
+\caption{圖五：1980年至2020年初次購屋數量}
+
+\end{figure}%
+
+從上圖數據可得知，在經濟飛速成長的時間段中，初次買房的數量也呈現高度正相關，顯示越來越多人都有多餘的財富實現成家的目標。而在1997年金融風暴使經濟遭受重創導致買房人數下降後，經濟雖然緩慢進步，我們推測是通膨速度超過了經濟成長，購屋數量的成長逐漸趨緩。
+
+\subsection{市場巨變帶來的影響}\label{ux5e02ux5834ux5de8ux8b8aux5e36ux4f86ux7684ux5f71ux97ff}
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{數據存取/3.1.png}}
+
+}
+
+\caption{圖六：2019年至2023年各區域平均購屋面積變化趨勢}
+
+\end{figure}%
+
+2020年，COVID-19疫情席捲了全球，使得多數人生活型態被迫改變，預定好的人生計劃也得重新制定，也造成經濟結構重創和轉變。從第三章的數據圖中可以看出，雖然南北部選房的總體趨勢不變，但是平均面積卻同步縮小，且隨著時間推進而持續下降。這反映了當環境受到全面影響時，對經濟面向的重創是持續性的，我們需要更多的時間去見證房屋面積的回升。
+
+\begin{figure}[H]
+
+{\centering \pandocbounded{\includegraphics[keepaspectratio]{數據存取/3.2.png}}
+
+}
+
+\caption{圖七：2015-2024屋主為初次購屋之房屋的數量}
+
+\end{figure}%
+
+而從初次購屋數量來看疫情的影響會發現疫情初期的購屋數量依舊隨著趨勢成長，但是在2021-2023年宅經濟退燒後，台灣晶片出口大減。供過於求導致經濟負成長，反映在房市的初次購屋人數急遽下降就是最好的證明。
+
+\section{推論與討論：數據背後的故事與政策省思}\label{ux63a8ux8ad6ux8207ux8a0eux8ad6ux6578ux64daux80ccux5f8cux7684ux6545ux4e8bux8207ux653fux7b56ux7701ux601d}
+
+\subsection{房市現況核心}\label{ux623fux5e02ux73feux6cc1ux6838ux5fc3}
+
+\begin{itemize}
+\tightlist
+\item
+  南北的抉擇：北部以機會換空間，中南部則反之，形成了兩種截然不同的安居模式。
+\item
+  時間的壓力：高房價推遲了成家的年齡，特別是在北部，家的起點被延後，可能進一步影響生育決策。
+\item
+  安居的代價：「長期持有」成為常態，家庭在生命週期變化時，換屋的彈性受限，影響了居住品質的提升。
+\end{itemize}
+
+\section{創新與延伸：政策改善方向及建議}\label{ux5275ux65b0ux8207ux5ef6ux4f38ux653fux7b56ux6539ux5584ux65b9ux5411ux53caux5efaux8b70}
+
+數據不僅僅是故事，更應成為政策的基石。我們的發現指向了幾個可能的政策方向：
+
+\begin{itemize}
+\tightlist
+\item
+  精準的青年安居政策：面對區域性挑戰，北部除現有補貼外，增加平價、優質的中小坪數住宅供給，應是政策思考的核心。
+\item
+  活絡換屋市場：降低交易稅負，鼓勵家庭在不同生命階段(如：空巢期)「大換小」，釋出大坪數房屋，增加市場供給。
+\item
+  區域均衡發展：長遠來看，唯有推動區域均衡發展，讓青年在家鄉也能找到機會，才能從根本上緩解「蝸居都市」的壓力。
+\end{itemize}
+
+\section{特別致謝}\label{ux7279ux5225ux81f4ux8b1d}
+
+由衷感謝清華大學數學系東聖甯教授的鼎力協助。在研究主題確立、方法修正、圖表呈現乃至文稿潤飾方面，教授皆不吝給予寶貴的建議與指導。
+
+\section{參考資料及程式碼總集}\label{ux53c3ux8003ux8cc7ux6599ux53caux7a0bux5f0fux78bcux7e3dux96c6}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  社會經濟資料服務平台-內政部大數據模擬資料-屋主模擬資料(108年-112年)：\\
+  https://segis.moi.gov.tw/STATCloud/BigData\\
+\item
+  程式碼總集：
+  https://github.com/Alan-Huang-24/Promenade\_of\_Data\_Science\_2025.git
+\end{enumerate}
+
+
+
+
+\end{document}

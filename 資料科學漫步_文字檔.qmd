@@ -15,10 +15,20 @@ format:
     code-summary: "顯示/隱藏程式碼"
     fig-cap-location: top
   pdf:
-    documentclass: ctexart
+    pdf-engine: xelatex
+    mainfont: "Microsoft JhengHei"   
+    CJKmainfont: "Microsoft JhengHei"
+    sansfont: "Microsoft JhengHei"
+    papersize: a4
+    monofont: "Consolas"
+    geometry:
+      - margin=25mm
     toc: true
     number-sections: true
     colorlinks: true
+    header-includes:
+      - \xeCJKsetup{PunctStyle=plain}
+      - \setlength{\emergencystretch}{3em}
 execute:
   echo: false
   warning: false
@@ -111,4 +121,3 @@ execute:
    https://segis.moi.gov.tw/STATCloud/BigData  
 2. 程式碼總集：
    https://github.com/Alan-Huang-24/Promenade_of_Data_Science_2025.git  
-
